@@ -5,6 +5,21 @@
                 return item.amount
             }))}}
         </h2>
+
+        <span class="individual-name-amount">
+            <label for="individual-name-input">
+                Search for a name:
+            </label>
+            <input
+                id="individual-name-input"
+                v-model="nameInput"
+            />
+            <p v-if="getAmount(nameInput)">
+                Total of {{nameInput}}:
+                {{getAmount(nameInput)}}
+            </p>
+        </span>
+
         <span class="sorting-buttons">
             <button @click="sortByName(names)">
                 Sort by name
@@ -13,6 +28,7 @@
                 Sort by amount
             </button>
         </span>
+
         <ul class="names-container">
             <li
                 v-for="item in names"
@@ -32,7 +48,8 @@
         name: 'Names',
         data() {
             return {
-                names: this.sortByAmount(mockDatabase.names)
+                names: this.sortByAmount(mockDatabase.names),
+                nameInput: ""
             }
         },
         methods: {
@@ -56,6 +73,17 @@
                 return amounts.reduce((sum, summand) => {
                     return (sum + summand)
                 })
+            },
+            getAmount(nameInput) {
+                const matchedName = this.names.find(item => {
+                    return (
+                        item.name.toLowerCase()
+                        === nameInput.toLowerCase()
+                    )
+                })
+                if (matchedName) {
+                    return matchedName.amount
+                }
             }
         }
     }
@@ -89,5 +117,9 @@
 
     ul {
         padding: 0;
+    }
+
+    input {
+        background-color: violet;
     }
 </style>
