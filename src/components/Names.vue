@@ -1,11 +1,20 @@
 <template>
     <div>
+        <span class="sorting-buttons">
+            <button @click="sortByName(names)">
+                Sort by name
+            </button>
+            <button @click="sortByAmount(names)">
+                Sort by amount
+            </button>
+        </span>
         <ul class="names-container">
             <li
                 v-for="item in names"
                 v-bind:key="item.name"
             >
-                {{item.name}} ({{item.amount}})
+                <span> {{item.name}} </span>
+                <span> {{item.amount}} </span>
             </li>
         </ul>
     </div>
@@ -18,7 +27,23 @@
         name: 'Names',
         data() {
             return {
-                names: mockDatabase.names.sort((item1, item2) => {
+                names: this.sortByAmount(mockDatabase.names)
+            }
+        },
+        methods: {
+            sortByName(names) {
+                return names.sort((item1, item2) => {
+                    if (item1.name < item2.name) {
+                        return -1
+                    } else if (item1.name > item2.name) {
+                        return 1
+                    } else {
+                        return 0
+                    }
+                })
+            },
+            sortByAmount(names) {
+                return names.sort((item1, item2) => {
                     return (item2.amount - item1.amount)
                 })
             }
@@ -38,6 +63,18 @@
         outline: 1px solid darkmagenta;
         padding: 1em;
         margin: 1em;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+    }
+
+    .sorting-buttons {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .sorting-buttons button {
+        background-color: cyan;
     }
 
     ul {
