@@ -1,5 +1,10 @@
 <template>
     <div>
+        <h2>
+            Total: {{calculateSum(names.map(item => {
+                return item.amount
+            }))}}
+        </h2>
         <span class="sorting-buttons">
             <button @click="sortByName(names)">
                 Sort by name
@@ -45,6 +50,11 @@
             sortByAmount(names) {
                 return names.sort((item1, item2) => {
                     return (item2.amount - item1.amount)
+                })
+            },
+            calculateSum(amounts) {
+                return amounts.reduce((sum, summand) => {
+                    return (sum + summand)
                 })
             }
         }
